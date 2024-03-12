@@ -35,4 +35,9 @@ public partial class MainOverseePage : ContentPage
     {
         listOperations.SelectedItem = null;
     }
+
+    private void AddButton_Clicked(object sender, EventArgs e)
+    {
+
+    }
 }

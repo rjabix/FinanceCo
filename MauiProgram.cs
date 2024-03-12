@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using CommunityToolkit.Maui;
+using Microsoft.Extensions.Logging;
 
 namespace FinanceCo
 {
@@ -15,6 +16,7 @@ namespace FinanceCo
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                 });
 
+            builder.UseMauiApp<App>().UseMauiCommunityToolkit();
 #if DEBUG
     		builder.Logging.AddDebug();
 #endif

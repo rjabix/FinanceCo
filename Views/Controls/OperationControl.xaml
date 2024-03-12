@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             x:Class="FinanceCo.Views.Controls.OperationControl">
+            
+    <VerticalStackLayout Spacing="10" Margin="20, 20, 20, 0">
+        <Label Text="Інформація:" FontSize="Large" HorizontalOptions="Center" />
+        <!--<HorizontalStackLayout VerticalOptions="Center">
+        <Label Text="{Binding Value}" WidthRequest="250" FontSize="Large" VerticalOptions="Center"/>
+        <Label Text="{Binding Date}" WidthRequest="250" FontSize="Large" VerticalOptions="Center"/>
+        <Label Text="{Binding Category}" WidthRequest="250" FontSize="Large" VerticalOptions="Center"/>
+    </HorizontalStackLayout>-->
+        <Frame Padding="10, 2, 10, 2">
+            <HorizontalStackLayout>
+                <Label Text="Вартість:" VerticalOptions="Center" WidthRequest="250" FontSize="Large" />
+                <Entry x:Name="ValueEntry" VerticalOptions="Center" WidthRequest="150">
+                    <Entry.Behaviors>
+                        <toolkit:TextValidationBehavior
+                        x:Name="ValueValidator"
+                        Flags="ValidateOnAttaching, ValidateOnValueChanged"
+                        MinimumLength="1"/>
+                    </Entry.Behaviors>
+                </Entry>
+            </HorizontalStackLayout>
+        </Frame>
+
+        <Frame Padding="10, 2, 10, 2">
+            <HorizontalStackLayout>
+                <Label Text="Дата:" VerticalOptions="Center" WidthRequest="250" FontSize="Large" />
+                <Entry x:Name="DateEntry" VerticalOptions="Center" WidthRequest="150">
+                    <Entry.Behaviors>
+                        <toolkit:MultiValidationBehavior
+                        x:Name="DateValidator"
+                        Flags="ValidateOnAttaching, ValidateOnValueChanged">
+
+                            <toolkit:TextValidationBehavior
+                            Flags="ValidateOnAttaching, ValidateOnValueChanged"
+                            MinimumLength="7"/>
+                        </toolkit:MultiValidationBehavior>
+                    </Entry.Behaviors>
+                </Entry>
+            </HorizontalStackLayout>
+        </Frame>
+
+        <Frame Padding="10, 2, 10, 2">
+            <HorizontalStackLayout>
+                <Label Text="Категорія:" VerticalOptions="Center" WidthRequest="250" FontSize="Large" />
+                <Entry x:Name="CategoryEntry" VerticalOptions="Center" WidthRequest="150"/>
+            </HorizontalStackLayout>
+        </Frame>
+
+        <Frame Padding="10, 2, 10, 2">
+            <HorizontalStackLayout>
+                <Label Text="Опис:" VerticalOptions="Center" WidthRequest="250" FontSize="Large" />
+                <Entry x:Name="DescriptionEntry" VerticalOptions="Center" WidthRequest="150"/>
+            </HorizontalStackLayout>
+        </Frame>
+        <Button Text="Зберегти" Clicked="Save_Button_Clicked"></Button>
+    </VerticalStackLayout>
+</ContentView>

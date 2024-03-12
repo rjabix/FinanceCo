@@ -19,7 +19,12 @@ namespace FinanceCo.Library
 
         public static OperationUnit GetOperationByID(int OperationId)
         {
-            return _operations.FirstOrDefault(x => x.OperationId == OperationId);
+            var operation = _operations.FirstOrDefault(x => x.OperationId == OperationId);
+            if(operation != null)
+            {
+                return new OperationUnit(operation.OperationId, operation.Value, operation.Date, operation.Category, operation.Description);
+            }
+            throw new Exception("Operation not found");
         }
 
         public static int GetNextId()
@@ -32,6 +37,22 @@ namespace FinanceCo.Library
         {
             OperationUnit operation = new OperationUnit(GetNextId(), value, date, category, description);
             _operations.Add(operation);
+        }
+
+        public static void EditOperation(int OperationId, OperationUnit operation)
+        {
+            if(OperationId != operation.OperationId)
+            {
+                throw new Exception("OperationId does not match");
+            }
+            var OperationToUpdate = _operations.FirstOrDefault(x => x.OperationId == OperationId);
+            if(OperationToUpdate != null)
+            {
+                OperationToUpdate.Value = operation.Value;
+                OperationToUpdate.Date = operation.Date;
+                OperationToUpdate.Category = operation.Category;
+                OperationToUpdate.Description = operation.Description;
+            }
         }
     }
 }
