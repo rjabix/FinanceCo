@@ -8,11 +8,12 @@ namespace FinanceCo.Library
 {
     public static class OperationUnitRepository
     {
-        private static int _nextId = 3;
+        private static int _nextId = 4;
         public static List<OperationUnit> _operations = new List<OperationUnit>()
         {
             new OperationUnit(1, 50, "01/01/2021", "Food", "Bought some food"),
             new OperationUnit(2, 100, "02/01/2021", "Transport", "Bus"),
+            new OperationUnit(3, 200, "03/01/2021", "Food", "Bought more food")
         };
 
         public static List<OperationUnit> GetOperations() => _operations;
@@ -52,6 +53,15 @@ namespace FinanceCo.Library
                 OperationToUpdate.Date = operation.Date;
                 OperationToUpdate.Category = operation.Category;
                 OperationToUpdate.Description = operation.Description;
+            }
+        }
+
+        public static void DeleteOperation(int OperationId)
+        {
+            var OperationToDelete = _operations.FirstOrDefault(x => x.OperationId == OperationId);
+            if(OperationToDelete != null)
+            {
+                _operations.Remove(OperationToDelete);
             }
         }
     }

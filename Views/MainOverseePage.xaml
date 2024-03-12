@@ -10,18 +10,24 @@
                   x:Name="listOperations"
                   BackgroundColor="Transparent"
                   SeparatorColor="Silver"
-                  RowHeight="100"
+                  RowHeight="125"
                   ItemSelected="listOperations_ItemSelected"
-                  ItemTapped="listOperations_ItemTapped">
+                  ItemTapped="listOperations_ItemTapped"
+                  ItemsSource="{Binding Operations}">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
-                        <StackLayout>
-                            <Label Text="{Binding Value}" />
-                            <Label Text="{Binding Date}" />
-                            <Label Text="{Binding Category}" />
-                            <Label Text="{Binding Description}" />
+                        <StackLayout Margin="20,10,0,0">
+                            <StackLayout Orientation="Horizontal">
+                                <Label Text="{Binding Value, StringFormat='{0} ZŁ'}" FontSize="Large" WidthRequest="250" HorizontalOptions="Start" VerticalOptions="Start"/>
+                                <Label Text="{Binding Date}" FontSize="Large" HorizontalOptions="End" VerticalOptions="Start"/>
+                            </StackLayout>
+                            <Label Text="{Binding Category}" FontSize="Small" HorizontalOptions="Start" VerticalOptions="End"/>
+                            <Label Text="{Binding Description}" FontSize="Small" HorizontalOptions="Start" VerticalOptions="End"/>
                         </StackLayout>
+                        <ViewCell.ContextActions>
+                            <MenuItem Clicked="OnDeleteButton_Clicked" Text="Delete" IsDestructive="True" CommandParameter="{Binding .}"/>
+                        </ViewCell.ContextActions>
                     </ViewCell>
                 </DataTemplate>
             </ListView.ItemTemplate>
