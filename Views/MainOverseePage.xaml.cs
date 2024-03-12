@@ -50,10 +50,16 @@ public partial class MainOverseePage : ContentPage
         }
     }
 
-    private void OnDeleteButton_Clicked(object sender, EventArgs e)
+    private async void OnDeleteButton_Clicked(object sender, EventArgs e)
     {
         var MenuItem = sender as MenuItem;
+        if (MenuItem == null) return;
+
         var operation = MenuItem.CommandParameter as OperationUnit;
+
+        bool shouldDelete = await DisplayAlert("Підтвердження", "Ви точно хочете це видалити?", "Так", "Ні");
+
+        if (!shouldDelete) return;
         OperationUnitRepository.DeleteOperation(operation.OperationId);
         RefreshListOperations();
     }

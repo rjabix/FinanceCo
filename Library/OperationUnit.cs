@@ -14,10 +14,6 @@ namespace FinanceCo.Library
         public string Category { get; set;}
         public string Description { get; set;}
 
-        public string Title_Text;
-
-
-
 
         public OperationUnit(int id, double value, string date, string category, string description)
         {
@@ -26,7 +22,6 @@ namespace FinanceCo.Library
             Date = date;
             Category = category;
             Description = description;
-            Title_Text = $"{Category} - {Value} - {Date}";
         }
         public OperationUnit(int id, double value, string date, string category)
         {
@@ -35,7 +30,6 @@ namespace FinanceCo.Library
             Date = date;
             Category = category;
             Description = "";
-            Title_Text = $"{Category} - {Value} - {Date}";
         }
     }
 }

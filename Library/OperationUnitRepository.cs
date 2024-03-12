@@ -64,5 +64,10 @@ namespace FinanceCo.Library
                 _operations.Remove(OperationToDelete);
             }
         }
+        public static List<OperationUnit> GetOperationsFilteredByCategory(string category)
+        {
+            return _operations.Where(operation => operation.Category == category).ToList();
+        }
+
     }
 }
