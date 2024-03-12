@@ -3,7 +3,25 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="FinanceCo.Views.MainOverseePage"
              Title="MainOversee">
-    <ListView>
-        
+    <ListView
+        x:Name="listOperations"
+        BackgroundColor ="Transparent"
+        SeparatorColor="Silver"
+        RowHeight="100"
+        ItemSelected="listOperations_ItemSelected"
+        ItemTapped="listOperations_ItemTapped"
+        >
+        <ListView.ItemTemplate>
+            <DataTemplate>
+                <ViewCell>
+                    <StackLayout>
+                        <Label Text="{Binding Value}" />
+                        <Label Text="{Binding Description}" />
+                        <Label Text="{Binding Date}" />
+                        <Label Text="{Binding Category}" />
+                    </StackLayout>
+                </ViewCell>
+            </DataTemplate>
+        </ListView.ItemTemplate>
     </ListView>
 </ContentPage>
