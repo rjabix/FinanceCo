@@ -17,12 +17,13 @@ namespace FinanceCo.Library
     public static class OperationUnitRepository
     {
         private static int _nextId = 4;
+        public static double CurrentGoal = 16;
         private static OperationCategory _category;
         public static List<OperationUnit> _operations = new List<OperationUnit>()
         {
-            new OperationUnit(1, 50, DateTime.Parse("01.01.2024"), ToOperationCategory("Food"), "Bought some food"),
-            new OperationUnit(2, 100, DateTime.Parse("02.01.2024"), ToOperationCategory("Transport"), "Bus"),
-            new OperationUnit(3, 200, DateTime.Parse("03.01.2024"), ToOperationCategory("Food"), "Bought more food")
+            new OperationUnit(1, 50, DateTime.Parse("10.03.2024"), ToOperationCategory("Food"), "Bought some food"),
+            new OperationUnit(2, 100, DateTime.Parse("11.03.2024"), ToOperationCategory("Transport"), "Bus"),
+            new OperationUnit(3, 200, DateTime.Parse("09.03.2024"), ToOperationCategory("Food"), "Bought more food")
         };
 
         public static List<OperationUnit> GetOperations() => _operations;
@@ -89,5 +90,24 @@ namespace FinanceCo.Library
             }
         }
 
+        public static List<OperationUnit> GetOperationsOnTheCurrentWeek()
+        {
+            DateTime currentDate = DateTime.Now;
+            DateTime startOfWeek = currentDate.AddDays(-(int)currentDate.DayOfWeek);
+            DateTime endOfWeek = startOfWeek.AddDays(7);
+
+            return _operations.Where(operation => operation.Date >= startOfWeek && operation.Date < endOfWeek).ToList();
+
+        }
+
+        public static double GetWeekTotalValueOfOperations()
+        {
+            double totalValue = 0;
+            foreach (var operation in GetOperationsOnTheCurrentWeek())
+            {
+                totalValue += operation.Value;
+            }
+            return totalValue;
+        }
     }
 }

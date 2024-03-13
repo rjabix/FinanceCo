@@ -1,5 +1,8 @@
-using FinanceCo.Library;
+﻿using FinanceCo.Library;
 using System.Collections.ObjectModel;
+using Microcharts;
+using FinanceCo.Views.Controls;
+using SkiaSharp;
 
 namespace FinanceCo.Views;
 
@@ -10,8 +13,11 @@ public partial class MainOverseePage : ContentPage
     public MainOverseePage()
     {
         InitializeComponent();
+        double RealWeekAvg = Math.Round((OperationUnitRepository.GetWeekTotalValueOfOperations() / 7), 2);
+        SetGoalButton.TextColor = (RealWeekAvg > OperationUnitRepository.CurrentGoal) ? Color.FromHex("#CC0000") : Color.FromHex("#66CC00");
+        SetGoalButton.Text = $"Денна ціль (за тиждень): {RealWeekAvg.ToString()} / {OperationUnitRepository.CurrentGoal} ZŁ";
         Operations = new ObservableCollection<OperationUnit>();
-        BindingContext = this; // ������������ BindingContext
+        BindingContext = this; // Встановлюємо BindingContext
         RefreshListOperations();
     }
 
@@ -37,6 +43,12 @@ public partial class MainOverseePage : ContentPage
     protected override void OnAppearing()
     {
         base.OnAppearing();
+
+        chartView_thisWeekByCategories.Chart = new DonutChart()
+        {
+            Entries = DiagramsHandler.ThisWeekByCategoriesGraph(OperationUnitRepository.GetOperations()),
+            BackgroundColor = SKColors.Transparent
+        };
         RefreshListOperations();
     }
 
@@ -57,11 +69,24 @@ public partial class MainOverseePage : ContentPage
 
         var operation = MenuItem.CommandParameter as OperationUnit;
 
-        bool shouldDelete = await DisplayAlert("ϳ�����������", "�� ����� ������ �� ��������?", "���", "ͳ");
+        bool shouldDelete = await DisplayAlert("Підтвердження", "Ви точно хочете це видалити?", "Так", "Ні");
 
         if (!shouldDelete) return;
         OperationUnitRepository.DeleteOperation(operation.OperationId);
         RefreshListOperations();
     }
+
+    private async void SetGoalButton_Clicked(object sender, EventArgs e)
+    {
+        string result = await DisplayPromptAsync("Встановити ціль", "Введіть нову ціль:");
+        if (!string.IsNullOrEmpty(result))
+        {
+            OperationUnitRepository.CurrentGoal = Math.Round(double.Parse(result), 2);
+            double RealWeekAvg = Math.Round((OperationUnitRepository.GetWeekTotalValueOfOperations() / 7), 2);
+            SetGoalButton.TextColor = (RealWeekAvg > OperationUnitRepository.CurrentGoal) ? Color.FromHex("#CC0000") : Color.FromHex("#66CC00");
+            SetGoalButton.Text = $"Денна ціль (за тиждень): {RealWeekAvg.ToString()} / {OperationUnitRepository.CurrentGoal} ZŁ";
+        }
+    }
+
 }
 
