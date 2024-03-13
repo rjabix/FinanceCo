@@ -28,7 +28,7 @@ public partial class OperationControl : ContentView
     }
     public OperationCategory Category
     {
-        get => OperationUnitRepository.ToOperationCategory(CategoryPicker.SelectedItem.ToString());
+        get => (CategoryPicker.SelectedItem != null) ? OperationUnitRepository.ToOperationCategory(CategoryPicker.SelectedItem.ToString()) : OperationCategory.Other;
         set => CategoryPicker.SelectedItem = OperationUnitRepository.ToOperationCategory(value.ToString());
     }
     public string Description
