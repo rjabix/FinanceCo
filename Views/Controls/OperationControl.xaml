@@ -46,7 +46,7 @@
         <Frame Padding="10, 2, 10, 2">
             <HorizontalStackLayout>
                 <Label Text="Категорія:" VerticalOptions="Center" WidthRequest="250" FontSize="Large" />
-                <Entry x:Name="CategoryEntry" VerticalOptions="Center" WidthRequest="150"/>
+                <Picker x:Name="CategoryPicker" VerticalOptions="Center" WidthRequest="150"/>
             </HorizontalStackLayout>
         </Frame>
 

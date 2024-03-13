@@ -1,3 +1,4 @@
+using FinanceCo.Library;
 using System.Globalization;
 
 namespace FinanceCo.Views.Controls;
@@ -8,7 +9,11 @@ public partial class OperationControl : ContentView
     public event EventHandler<EventArgs> OnSave;
     public OperationControl()
     {
+
         InitializeComponent();
+        CategoryPicker.ItemsSource = Enum.GetValues(typeof(OperationCategory));
+        DateEntry.Text = DateTime.Now.ToString("dd/MM/yyyy");
+
     }
 
     public string Value
@@ -16,15 +21,15 @@ public partial class OperationControl : ContentView
         get => ValueEntry.Text;
         set => ValueEntry.Text = value;
     }
-    public string Date
+    public DateTime Date
     {
-        get => DateEntry.Text;
-        set => DateEntry.Text = value;
+        get => DateTime.Parse(DateEntry.Text);
+        set => DateEntry.Text = value.ToString();
     }
-    public string Category
+    public OperationCategory Category
     {
-        get => CategoryEntry.Text;
-        set => CategoryEntry.Text = value;
+        get => OperationUnitRepository.ToOperationCategory(CategoryPicker.SelectedItem.ToString());
+        set => CategoryPicker.SelectedItem = OperationUnitRepository.ToOperationCategory(value.ToString());
     }
     public string Description
     {
@@ -42,12 +47,18 @@ public partial class OperationControl : ContentView
 
         string userInput = DateEntry.Text; // Example input from the user
 
-        string[] formats = { "dd/MM/yyyy", "d/M/yyyy" }; // Define possible date formats
+        string[] formats = { "dd.MM.yyyy", "d.M.yyyy", "d.MM.yyyy", "dd.M.yyyy" }; // Define possible date formats
 
         DateTime date;
         if (!DateTime.TryParseExact(userInput, formats, System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.None, out date))
         {
             OnError?.Invoke(sender, "Invalid date format");
+            return;
+        }
+
+        if (date > DateTime.Now)
+        {
+            OnError?.Invoke(sender, "Date cannot be in the future");
             return;
         }
         OnSave?.Invoke(sender, e);

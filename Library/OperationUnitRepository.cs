@@ -6,14 +6,23 @@ using System.Threading.Tasks;
 
 namespace FinanceCo.Library
 {
+    public enum OperationCategory
+    {
+        Food,
+        Transport,
+        Alcohol,
+        Entertainment,
+        Other
+    }
     public static class OperationUnitRepository
     {
         private static int _nextId = 4;
+        private static OperationCategory _category;
         public static List<OperationUnit> _operations = new List<OperationUnit>()
         {
-            new OperationUnit(1, 50, "01/01/2021", "Food", "Bought some food"),
-            new OperationUnit(2, 100, "02/01/2021", "Transport", "Bus"),
-            new OperationUnit(3, 200, "03/01/2021", "Food", "Bought more food")
+            new OperationUnit(1, 50, DateTime.Parse("01.01.2024"), ToOperationCategory("Food"), "Bought some food"),
+            new OperationUnit(2, 100, DateTime.Parse("02.01.2024"), ToOperationCategory("Transport"), "Bus"),
+            new OperationUnit(3, 200, DateTime.Parse("03.01.2024"), ToOperationCategory("Food"), "Bought more food")
         };
 
         public static List<OperationUnit> GetOperations() => _operations;
@@ -34,7 +43,7 @@ namespace FinanceCo.Library
             _nextId++;
             return nextId;
         }
-        public static void AddOperation(double value, string date, string category, string description)
+        public static void AddOperation(double value, DateTime date, OperationCategory category, string description)
         {
             OperationUnit operation = new OperationUnit(GetNextId(), value, date, category, description);
             _operations.Add(operation);
@@ -64,9 +73,20 @@ namespace FinanceCo.Library
                 _operations.Remove(OperationToDelete);
             }
         }
-        public static List<OperationUnit> GetOperationsFilteredByCategory(string category)
+        public static List<OperationUnit> GetOperationsFilteredByCategory(OperationCategory category)
         {
             return _operations.Where(operation => operation.Category == category).ToList();
+        }
+        public static OperationCategory ToOperationCategory(string categoryString)
+        {
+            if (Enum.TryParse(categoryString, out OperationCategory category))
+            {
+                return category;
+            }
+            else
+            {
+                throw new ArgumentException("Invalid operation category string.");
+            }
         }
 
     }

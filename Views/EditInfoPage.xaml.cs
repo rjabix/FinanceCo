@@ -19,7 +19,7 @@ public partial class EditInfoPage : ContentPage
             {
                 BindingContext = Current_operation;
                 operationControl.Value = Current_operation.Value.ToString();
-                operationControl.Date = Current_operation.Date;
+                operationControl.Date = Current_operation.Date.Date;
                 operationControl.Category = Current_operation.Category;
                 if (Current_operation.Description != null) operationControl.Description = Current_operation.Description;
             }

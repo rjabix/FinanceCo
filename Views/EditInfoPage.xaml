@@ -7,5 +7,6 @@
              Title="EditInfo">
     <controls:OperationControl x:Name="operationControl"
                                OnSave="Save_Button_Clicked"
-                               OnError="operationControl_OnError"/>
+                               OnError="operationControl_OnError"
+                               />
 </ContentPage>
