@@ -24,7 +24,7 @@ public partial class OperationControl : ContentView
     public DateTime Date
     {
         get => DateTime.Parse(DateEntry.Text);
-        set => DateEntry.Text = value.ToString();
+        set => DateEntry.Text = $"{value:dd/MM/yyyy}";
     }
     public OperationCategory Category
     {
@@ -55,10 +55,17 @@ public partial class OperationControl : ContentView
             OnError?.Invoke(sender, "Invalid date format");
             return;
         }
-
-        if(Convert.ToDouble(ValueEntry.Text) <= 0)
+        try
         {
-            OnError?.Invoke(sender, "Value must be positive");
+            if (Convert.ToDouble(ValueEntry.Text) <= 0)
+            {
+                OnError?.Invoke(sender, "Value must be positive");
+                return;
+            }
+        }
+        catch
+        {
+            OnError?.Invoke(sender, "Invalid value format");
             return;
         }
 

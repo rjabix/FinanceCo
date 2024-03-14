@@ -24,8 +24,35 @@ public partial class MainOverseePage : ContentPage
         chartView_thisWeekByCategories.Chart = new DonutChart()
         {
             Entries = DiagramsHandler.ThisWeekByCategoriesGraph(OperationUnitRepository.GetOperationsOnTheCurrentWeek()),
-            BackgroundColor = SKColors.Transparent
+            BackgroundColor = SKColors.Transparent,
+            LabelColor = SKColors.White
         };
+
+        chartView_thisMonthByGoal.Chart = new LineChart()
+        {
+            Entries = DiagramsHandler.ThisMonthByGoalGraph(),
+            BackgroundColor = SKColors.Transparent,
+            LabelColor = SKColors.White
+        };
+        switch(DiagramsHandler.reached_goal)
+        {
+            case 0:
+                TimesGoalReachedLabel.Text = "Ціль не досягнута жодного разу :(";
+                TimesGoalReachedLabel.TextColor = Color.FromHex("#CC0000");
+                break;
+            case 1:
+                TimesGoalReachedLabel.Text = "Ціль досягнута один раз";
+                TimesGoalReachedLabel.TextColor = Color.FromHex("#CC0000");
+                break;
+            case 5:
+                TimesGoalReachedLabel.Text = "Ціль досягнута усі п'ять разів :)";
+                TimesGoalReachedLabel.TextColor = Color.FromHex("#66CC00");
+                break;
+            default:
+                TimesGoalReachedLabel.Text = $"Ціль досягнута {DiagramsHandler.reached_goal} рази";
+                TimesGoalReachedLabel.TextColor = Color.FromHex("#66CC00");
+                break;
+        }
 
         double RealWeekAvg = Math.Round((OperationUnitRepository.GetWeekTotalValueOfOperations() / 7), 2);
         SetGoalButton.TextColor = (RealWeekAvg > OperationUnitRepository.CurrentGoal) ? Color.FromHex("#CC0000") : Color.FromHex("#66CC00");

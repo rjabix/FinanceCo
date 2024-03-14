@@ -109,5 +109,15 @@ namespace FinanceCo.Library
             }
             return totalValue;
         }
+        public static List<OperationUnit> GetOperationsOnTheLastFourWeeks()
+        {
+            DateTime currentDate = DateTime.Now;
+            DateTime startOfLastWeek = currentDate.AddDays(-(int)currentDate.DayOfWeek).AddDays(-28);
+            DateTime endOfLastWeek = currentDate.AddDays(7);
+
+            return _operations.Where(operation => operation.Date >= startOfLastWeek && operation.Date <= endOfLastWeek).ToList();
+        }
+
+
     }
 }

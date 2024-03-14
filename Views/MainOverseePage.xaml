@@ -52,6 +52,9 @@
                 TextColor="White"
                 HeightRequest="25"/>
                 <charts:ChartView x:Name="chartView_thisWeekByCategories" HeightRequest="300" Margin="20,0,0,0"/>
+                <Label Text="За останній місяць:" FontSize="Large" HorizontalOptions="Center"/>
+                <charts:ChartView x:Name="chartView_thisMonthByGoal" HeightRequest="300" Margin="20,0,0,0"/>
+                <Label x:Name="TimesGoalReachedLabel" FontSize="Medium" HorizontalOptions="Center" Margin="5,0,0,0"/>
             </VerticalStackLayout>
         </ScrollView>
     </Grid>
