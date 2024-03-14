@@ -21,7 +21,7 @@
                         <StackLayout Margin="20,10,0,0">
                             <StackLayout Orientation="Horizontal">
                                 <Label Text="{Binding Value, StringFormat='{0} ZŁ'}" FontSize="Large" WidthRequest="250" HorizontalOptions="Start" VerticalOptions="Start"/>
-                                <Label Text="{Binding Date, StringFormat='{0:dd/MM}'}" FontSize="Large" HorizontalOptions="End" VerticalOptions="Start"/>
+                                <Label Text="{Binding Date, StringFormat='{0:ddd dd/MM}'}" FontSize="Large" HorizontalOptions="End" VerticalOptions="Start"/>
                             </StackLayout>
                             <Label Text="{Binding Category}" FontSize="Small" HorizontalOptions="Start" VerticalOptions="End"/>
                             <Label Text="{Binding Description}" FontSize="Small" HorizontalOptions="Start" VerticalOptions="End"/>

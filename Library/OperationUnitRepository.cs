@@ -23,7 +23,7 @@ namespace FinanceCo.Library
         {
             new OperationUnit(1, 50, DateTime.Parse("10.03.2024"), ToOperationCategory("Food"), "Bought some food"),
             new OperationUnit(2, 100, DateTime.Parse("11.03.2024"), ToOperationCategory("Transport"), "Bus"),
-            new OperationUnit(3, 200, DateTime.Parse("09.03.2024"), ToOperationCategory("Food"), "Bought more food")
+            new OperationUnit(3, 200, DateTime.Parse("12.03.2024"), ToOperationCategory("Food"), "Bought more food")
         };
 
         public static List<OperationUnit> GetOperations() => _operations;

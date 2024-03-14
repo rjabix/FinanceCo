@@ -56,6 +56,12 @@ public partial class OperationControl : ContentView
             return;
         }
 
+        if(Convert.ToDouble(ValueEntry.Text) <= 0)
+        {
+            OnError?.Invoke(sender, "Value must be positive");
+            return;
+        }
+
         if (date > DateTime.Now)
         {
             OnError?.Invoke(sender, "Date cannot be in the future");

@@ -13,14 +13,26 @@ public partial class MainOverseePage : ContentPage
     public MainOverseePage()
     {
         InitializeComponent();
-        double RealWeekAvg = Math.Round((OperationUnitRepository.GetWeekTotalValueOfOperations() / 7), 2);
-        SetGoalButton.TextColor = (RealWeekAvg > OperationUnitRepository.CurrentGoal) ? Color.FromHex("#CC0000") : Color.FromHex("#66CC00");
-        SetGoalButton.Text = $"Денна ціль (за тиждень): {RealWeekAvg.ToString()} / {OperationUnitRepository.CurrentGoal} ZŁ";
         Operations = new ObservableCollection<OperationUnit>();
         BindingContext = this; // Встановлюємо BindingContext
         RefreshListOperations();
     }
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
 
+        chartView_thisWeekByCategories.Chart = new DonutChart()
+        {
+            Entries = DiagramsHandler.ThisWeekByCategoriesGraph(OperationUnitRepository.GetOperationsOnTheCurrentWeek()),
+            BackgroundColor = SKColors.Transparent
+        };
+
+        double RealWeekAvg = Math.Round((OperationUnitRepository.GetWeekTotalValueOfOperations() / 7), 2);
+        SetGoalButton.TextColor = (RealWeekAvg > OperationUnitRepository.CurrentGoal) ? Color.FromHex("#CC0000") : Color.FromHex("#66CC00");
+        SetGoalButton.Text = $"Денна ціль (за тиждень): {RealWeekAvg.ToString()} / {OperationUnitRepository.CurrentGoal} ZŁ";
+
+        RefreshListOperations();
+    }
     private void listOperations_ItemSelected(object sender, SelectedItemChangedEventArgs e)
     {
         if (listOperations.SelectedItem != null)
@@ -40,22 +52,12 @@ public partial class MainOverseePage : ContentPage
         RefreshListOperations();
     }
 
-    protected override void OnAppearing()
-    {
-        base.OnAppearing();
-
-        chartView_thisWeekByCategories.Chart = new DonutChart()
-        {
-            Entries = DiagramsHandler.ThisWeekByCategoriesGraph(OperationUnitRepository.GetOperations()),
-            BackgroundColor = SKColors.Transparent
-        };
-        RefreshListOperations();
-    }
-
     private void RefreshListOperations()
     {
         Operations.Clear();
         List<OperationUnit> operations = OperationUnitRepository.GetOperations();
+        operations = operations.OrderBy(operation => operation.Date).ToList();
+        operations.Reverse();
         foreach (var operation in operations)
         {
             Operations.Add(operation);
