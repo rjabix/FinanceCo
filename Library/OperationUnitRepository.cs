@@ -16,16 +16,15 @@ namespace FinanceCo.Library
     }
     public static class OperationUnitRepository
     {
-        private static int _nextId = 4;
-        public static double CurrentGoal = 16;
-        private static OperationCategory _category;
-        public static List<OperationUnit> _operations = new List<OperationUnit>()
+        public static List<OperationUnit> _operations = FinanceDbContext.GetOperationsFromDatabase();/*new List<OperationUnit>()
         {
             new OperationUnit(1, 50, DateTime.Parse("10.03.2024"), ToOperationCategory("Food"), "Bought some food"),
             new OperationUnit(2, 100, DateTime.Parse("11.03.2024"), ToOperationCategory("Transport"), "Bus"),
             new OperationUnit(3, 200, DateTime.Parse("12.03.2024"), ToOperationCategory("Food"), "Bought more food")
-        };
-
+        };*/
+        private static int _nextId = _operations.Max(o => o.OperationId) + 1;
+        public static double CurrentGoal = FinanceDbContext.GetGoalFromDatabase();
+        private static OperationCategory _category;
         public static List<OperationUnit> GetOperations() => _operations;
 
         public static OperationUnit GetOperationByID(int OperationId)
@@ -48,6 +47,7 @@ namespace FinanceCo.Library
         {
             OperationUnit operation = new OperationUnit(GetNextId(), value, date, category, description);
             _operations.Add(operation);
+            FinanceDbContext.SeedData();
         }
 
         public static void EditOperation(int OperationId, OperationUnit operation)
@@ -64,6 +64,7 @@ namespace FinanceCo.Library
                 OperationToUpdate.Category = operation.Category;
                 OperationToUpdate.Description = operation.Description;
             }
+            FinanceDbContext.SeedData();
         }
 
         public static void DeleteOperation(int OperationId)
@@ -73,6 +74,7 @@ namespace FinanceCo.Library
             {
                 _operations.Remove(OperationToDelete);
             }
+            FinanceDbContext.SeedData();
         }
         public static List<OperationUnit> GetOperationsFilteredByCategory(OperationCategory category)
         {

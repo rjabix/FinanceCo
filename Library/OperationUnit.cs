@@ -21,7 +21,8 @@ namespace FinanceCo.Library
             Value = value;
             Date = date.Date; // Store only the date part without the time
             Category = category;
-            Description = description;
+            if (Description != null) { Description = description; } else { Description = "";}
+                
         }
         public OperationUnit(int id, double value, DateTime date, OperationCategory category)
         {
@@ -31,5 +32,7 @@ namespace FinanceCo.Library
             Category = category;
             Description = "";
         }
+        public OperationUnit() { }
+
     }
 }
