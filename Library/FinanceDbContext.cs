@@ -27,10 +27,9 @@ namespace FinanceCo.Library
                 {
                     var existingOperation = context.Operations.FirstOrDefault(o => o.OperationId == operation.OperationId);
 
-                    if (existingOperation != null)
-                        continue;
+                    if (existingOperation == null) 
+                        context.Operations.Add(operation);
 
-                    context.Operations.Add(operation);
                 }
                 context.SaveChanges();
 

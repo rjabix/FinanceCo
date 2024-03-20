@@ -57,5 +57,10 @@
                 <Label x:Name="TimesGoalReachedLabel" FontSize="Medium" HorizontalOptions="Center" Margin="5,0,0,0"/>
             </VerticalStackLayout>
         </ScrollView>
+        <Button Grid.Row="1"
+        Grid.Column="1"
+        x:Name="StatsButton"
+        Text="Статистика"
+        Clicked="StatsButton_Clicked" />
     </Grid>
 </ContentPage>

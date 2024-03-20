@@ -56,7 +56,7 @@ public partial class MainOverseePage : ContentPage
 
         double RealWeekAvg = Math.Round((OperationUnitRepository.GetWeekTotalValueOfOperations() / 7), 2);
         SetGoalButton.TextColor = (RealWeekAvg > OperationUnitRepository.CurrentGoal) ? Color.FromHex("#CC0000") : Color.FromHex("#66CC00");
-        SetGoalButton.Text = $"Денна ціль (за тиждень): {RealWeekAvg.ToString()} / {OperationUnitRepository.CurrentGoal} ZŁ";
+        SetGoalButton.Text = $"Денна ціль (за тиждень): {RealWeekAvg} / {OperationUnitRepository.CurrentGoal} ZŁ";
 
         RefreshListOperations();
     }
@@ -113,10 +113,14 @@ public partial class MainOverseePage : ContentPage
             OperationUnitRepository.CurrentGoal = Math.Round(double.Parse(result), 2);
             double RealWeekAvg = Math.Round((OperationUnitRepository.GetWeekTotalValueOfOperations() / 7), 2);
             SetGoalButton.TextColor = (RealWeekAvg > OperationUnitRepository.CurrentGoal) ? Color.FromHex("#CC0000") : Color.FromHex("#66CC00");
-            SetGoalButton.Text = $"Денна ціль (за тиждень): {RealWeekAvg.ToString()} / {OperationUnitRepository.CurrentGoal} ZŁ";
+            SetGoalButton.Text = $"Денна ціль (за тиждень): {RealWeekAvg} / {OperationUnitRepository.CurrentGoal} ZŁ";
             FinanceDbContext.SeedGoaltoDatabase();
         }
     }
 
+    private void StatsButton_Clicked(object sender, EventArgs e)
+    {
+        Shell.Current.GoToAsync(nameof(ShowStatsPage));
+    }
 }
 
