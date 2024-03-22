@@ -97,6 +97,19 @@ namespace FinanceCo.Library
                 Console.WriteLine($"Помилка запису до файлу: {ex.Message}");
             }
         }
+        public static void DeleteOperationById(int operationId)
+        {
+            using (var context = new FinanceDbContext())
+            {
+                var operation = context.Operations.FirstOrDefault(o => o.OperationId == operationId);
+
+                if (operation != null)
+                {
+                    context.Operations.Remove(operation);
+                    context.SaveChanges();
+                }
+            }
+        }
     }
 }
 

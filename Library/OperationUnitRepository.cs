@@ -16,12 +16,8 @@ namespace FinanceCo.Library
     }
     public static class OperationUnitRepository
     {
-        public static List<OperationUnit> _operations = FinanceDbContext.GetOperationsFromDatabase();/*new List<OperationUnit>()
-        {
-            new OperationUnit(1, 50, DateTime.Parse("10.03.2024"), ToOperationCategory("Food"), "Bought some food"),
-            new OperationUnit(2, 100, DateTime.Parse("11.03.2024"), ToOperationCategory("Transport"), "Bus"),
-            new OperationUnit(3, 200, DateTime.Parse("12.03.2024"), ToOperationCategory("Food"), "Bought more food")
-        };*/
+        public static List<OperationUnit> _operations = FinanceDbContext.GetOperationsFromDatabase();
+
         private static int _nextId = _operations.Max(o => o.OperationId) + 1;
         public static double CurrentGoal = FinanceDbContext.GetGoalFromDatabase();
         private static OperationCategory _category;
@@ -74,7 +70,7 @@ namespace FinanceCo.Library
             {
                 _operations.Remove(OperationToDelete);
             }
-            FinanceDbContext.SeedData();
+            FinanceDbContext.DeleteOperationById(OperationId);
         }
         public static List<OperationUnit> GetOperationsFilteredByCategory(OperationCategory category)
         {

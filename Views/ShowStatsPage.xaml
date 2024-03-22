@@ -5,7 +5,7 @@
              Title="ShowStats">
     <ScrollView>
         <VerticalStackLayout>
-            <Label x:Name="ShowSavedMoneyThroughLastFourWeekends" FontSize="Medium"/>
+            <Label x:Name="ShowSavedMoneyThroughLastFourWeekends" HorizontalOptions="Center" FontSize="Medium"/>
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>

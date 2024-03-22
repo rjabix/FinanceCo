@@ -18,6 +18,6 @@ public partial class ShowStatsPage : ContentPage
         {
             saved -= operation.Value;
         }
-        ShowSavedMoneyThroughLastFourWeekends.Text = (saved > 0) ? $"За останній місяць ти досяг ціль {DiagramsHandler.reached_goal} рази, перевершивши ціль на {saved} Zł" : $"За останній місяць ти досяг ціль {DiagramsHandler.reached_goal} рази, проте вийшов у мінус на {saved} Zł";
+        ShowSavedMoneyThroughLastFourWeekends.Text = (saved > 0) ? $"За останній місяць ти досяг ціль {DiagramsHandler.reached_goal} рази, збережучи при цьому {saved} Zł!" : $"За останній місяць ти досяг ціль {DiagramsHandler.reached_goal} рази, проте вийшов у мінус на {saved} Zł";
     }
 }

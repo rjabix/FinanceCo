@@ -12,7 +12,8 @@ public partial class OperationControl : ContentView
 
         InitializeComponent();
         CategoryPicker.ItemsSource = Enum.GetValues(typeof(OperationCategory));
-        DateEntry.Text = DateTime.Now.ToString("dd/MM/yyyy");
+        DateEntry.Date = DateTime.Now;
+        DateEntry.MaximumDate = DateTime.Now;
 
     }
 
@@ -23,8 +24,8 @@ public partial class OperationControl : ContentView
     }
     public DateTime Date
     {
-        get => DateTime.Parse(DateEntry.Text);
-        set => DateEntry.Text = $"{value:dd/MM/yyyy}";
+        get => DateEntry.Date;
+        set => DateEntry.Date = value;
     }
     public OperationCategory Category
     {
@@ -39,22 +40,22 @@ public partial class OperationControl : ContentView
 
     private void Save_Button_Clicked(object sender, EventArgs e)
     {
-        if (ValueValidator.IsNotValid || DateValidator.IsNotValid)
+        if (ValueValidator.IsNotValid)
         {
             OnError?.Invoke(sender, "Invalid input");
             return;
         }
 
-        string userInput = DateEntry.Text; // Example input from the user
+        //string userInput = DateEntry.Text; // Example input from the user
 
-        string[] formats = { "dd.MM.yyyy", "d.M.yyyy", "d.MM.yyyy", "dd.M.yyyy" }; // Define possible date formats
+        //string[] formats = { "dd.MM.yyyy", "d.M.yyyy", "d.MM.yyyy", "dd.M.yyyy" }; // Define possible date formats
 
-        DateTime date;
-        if (!DateTime.TryParseExact(userInput, formats, System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.None, out date))
-        {
-            OnError?.Invoke(sender, "Invalid date format");
-            return;
-        }
+        //DateTime date;
+        //if (!DateTime.TryParseExact(userInput, formats, System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.None, out date))
+        //{
+        //    OnError?.Invoke(sender, "Invalid date format");
+        //    return;
+        //}
         try
         {
             if (Convert.ToDouble(ValueEntry.Text) <= 0)
@@ -69,11 +70,11 @@ public partial class OperationControl : ContentView
             return;
         }
 
-        if (date > DateTime.Now)
-        {
-            OnError?.Invoke(sender, "Date cannot be in the future");
-            return;
-        }
+        //if (date > DateTime.Now)
+        //{
+        //    OnError?.Invoke(sender, "Date cannot be in the future");
+        //    return;
+        //}
         OnSave?.Invoke(sender, e);
     }
 }
