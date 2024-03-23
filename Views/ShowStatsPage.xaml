@@ -1,11 +1,28 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:charts="clr-namespace:Microcharts.Maui;assembly=Microcharts.Maui"
              x:Class="FinanceCo.Views.ShowStatsPage"
              Title="ShowStats">
     <ScrollView>
         <VerticalStackLayout>
-            <Label x:Name="ShowSavedMoneyThroughLastFourWeekends" HorizontalOptions="Center" FontSize="Medium"/>
-        </VerticalStackLayout>
+            <Grid
+                RowDefinitions="*"
+                ColumnDefinitions="*,*"
+                Margin="10,0,0,10">
+                
+                <VerticalStackLayout Grid.Row="0" Grid.Column="0">
+                    <Label Text="За останні 4 тижні:"/>
+                    <charts:ChartView x:Name="LastMonthByCategoriesGraph" HeightRequest="250" Margin="20,0,0,0"/>
+                    
+                </VerticalStackLayout>
+
+                <VerticalStackLayout Grid.Row="0" Grid.Column="1">
+                    
+                    <Label x:Name="ShowSavedMoneyThroughLastFourWeekends" HorizontalOptions="Center" FontSize="Small"/>
+                    
+                </VerticalStackLayout>
+            </Grid>        
+         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>

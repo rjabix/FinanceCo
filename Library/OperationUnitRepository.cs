@@ -6,14 +6,6 @@ using System.Threading.Tasks;
 
 namespace FinanceCo.Library
 {
-    public enum OperationCategory
-    {
-        Food,
-        Transport,
-        Alcohol,
-        Entertainment,
-        Other
-    }
     public static class OperationUnitRepository
     {
         public static List<OperationUnit> _operations = FinanceDbContext.GetOperationsFromDatabase();
@@ -21,7 +13,7 @@ namespace FinanceCo.Library
         private static int _nextId = _operations.Max(o => o.OperationId) + 1;
         public static double CurrentGoal = FinanceDbContext.GetGoalFromDatabase();
         private static OperationCategory _category;
-        public static List<OperationUnit> GetOperations() => _operations;
+        public static List<OperationUnit> GetOperations() => FinanceDbContext.GetOperationsFromDatabase();
 
         public static OperationUnit GetOperationByID(int OperationId)
         {
@@ -115,7 +107,5 @@ namespace FinanceCo.Library
 
             return _operations.Where(operation => operation.Date >= startOfLastWeek && operation.Date <= endOfLastWeek).ToList();
         }
-
-
     }
 }

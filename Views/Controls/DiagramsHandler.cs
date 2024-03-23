@@ -152,7 +152,7 @@ namespace FinanceCo.Views.Controls
                 }
                 j++;
             }
-            return entries.ToArray();
+            return [.. entries];
         }
 
     }

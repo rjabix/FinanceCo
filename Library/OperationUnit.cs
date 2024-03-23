@@ -6,6 +6,14 @@ using System.Threading.Tasks;
 
 namespace FinanceCo.Library
 {
+    public enum OperationCategory
+    {
+        Food,
+        Transport,
+        Alcohol,
+        Entertainment,
+        Other
+    }
     public class OperationUnit
     {
         public int OperationId { get; set; }
