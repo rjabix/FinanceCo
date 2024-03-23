@@ -118,26 +118,26 @@ namespace FinanceCo.Views.Controls
                 { 3, "" },
                 { 4, "" }
             };
-            for(int i = 0; i<5; i++)
+            for (int i = 0; i < 5; i++)
             {
                 foreach (var operation in operations)
                 {
                     if (operation.Date >= startOfWeek.AddDays(-7 * i) && operation.Date < endOfWeek.AddDays(-7 * i))
                     {
-                        keyValuePairs[4-i] += operation.Value;
-                        if (keyValuePairs1[4-i] == "")
+                        keyValuePairs[4 - i] += operation.Value;
+                        if (keyValuePairs1[4 - i] == "")
                         {
                             keyValuePairs1[4 - i] = $"{startOfWeek.AddDays(-7 * i):dd/MM} - {endOfWeek.AddDays(-7 * i):dd/MM}";
                         }
                     }
                 }
             }
-           
+
             List<ChartEntry> entries = new List<ChartEntry>();
             int j = 0;
             foreach (var pair in keyValuePairs)
             {
-                if(pair.Value/7 < OperationUnitRepository.CurrentGoal && pair.Value > 0) reached_goal++;
+                if (pair.Value / 7 < OperationUnitRepository.CurrentGoal && pair.Value > 0) reached_goal++;
                 if ((float)pair.Value > 0)
                 {
                     sum += (float)pair.Value;
@@ -151,6 +151,80 @@ namespace FinanceCo.Views.Controls
                     });
                 }
                 j++;
+            }
+            return [.. entries];
+        }
+
+        public static ChartEntry[] LastFourWeeksByCategoriesGraph(List<OperationUnit> operations, OperationCategory category)
+        {
+            string color;
+            switch (category)
+            {
+                case OperationCategory.Food:
+                    color = "#90D585";
+                    break;
+                case OperationCategory.Transport:
+                    color = "#68B9C0";
+                    break;
+                case OperationCategory.Alcohol:
+                    color = "#e77e23";
+                    break;
+                case OperationCategory.Entertainment:
+                    color = "#FF0000";
+                    break;
+                case OperationCategory.Other:
+                    color = "#808080";
+                    break;
+                default:
+                    color = "#000000";
+                    break;
+            }
+            Dictionary<int, double> keyValuePairs = new Dictionary<int, double>
+            {
+                { 0, 0 },
+                { 1, 0 },
+                { 2, 0 },
+                { 3, 0 },
+                { 4, 0 }
+            };
+            DateTime currentDate = DateTime.Now;
+            DateTime startOfWeek = currentDate.AddDays(-(int)currentDate.DayOfWeek);
+            DateTime endOfWeek = startOfWeek.AddDays(7);
+            Dictionary<int, string> keyValuePairs1 = new Dictionary<int, string>
+            {
+                { 0, "" },
+                { 1, "" },
+                { 2, "" },
+                { 3, "" },
+                { 4, "" }
+            };
+
+            for (int i = 0; i < 5; i++)
+            {
+                foreach (var operation in operations)
+                {
+                    if (operation.Date >= startOfWeek.AddDays(-7 * i) && operation.Date < endOfWeek.AddDays(-7 * i) && operation.Category == category)
+                    {
+                        keyValuePairs[4 - i] += operation.Value;
+                        if (keyValuePairs1[4 - i] == "")
+                        {
+                            keyValuePairs1[4 - i] = $"{startOfWeek.AddDays(-7 * i):dd/MM} - {endOfWeek.AddDays(-7 * i):dd/MM}";
+                        }
+                    }
+                }
+            }
+
+            List<ChartEntry> entries = new List<ChartEntry>();
+
+            foreach (var pair in keyValuePairs)
+            {
+                entries.Add(new ChartEntry((float)pair.Value)
+                {
+                    Label = keyValuePairs1[pair.Key],
+                    ValueLabel = pair.Value.ToString(),
+                    ValueLabelColor = SKColors.White,
+                    Color = SKColor.Parse(color)
+                });
             }
             return [.. entries];
         }

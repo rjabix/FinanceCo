@@ -36,6 +36,26 @@ namespace FinanceCo.Library
             }
         }
 
+        public static void EditOperationInDbById(OperationUnit operation, int id)
+        {
+            using (var context = new FinanceDbContext())
+            {
+                context.Database.EnsureCreated();
+                var operationToUpdate = context.Operations.FirstOrDefault(x => x.OperationId == id);
+
+                if (operationToUpdate != null)
+                {
+                    operationToUpdate.Value = operation.Value;
+                    operationToUpdate.Date = operation.Date;
+                    operationToUpdate.Category = operation.Category;
+                    operationToUpdate.Description = operation.Description;
+                    // Update other properties as needed
+
+                    context.SaveChanges();
+                }
+            }
+        }
+
         public static List<OperationUnit> GetOperationsFromDatabase()
         {
             using (var context = new FinanceDbContext())

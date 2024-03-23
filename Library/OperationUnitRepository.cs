@@ -13,7 +13,7 @@ namespace FinanceCo.Library
         private static int _nextId = _operations.Max(o => o.OperationId) + 1;
         public static double CurrentGoal = FinanceDbContext.GetGoalFromDatabase();
         private static OperationCategory _category;
-        public static List<OperationUnit> GetOperations() => FinanceDbContext.GetOperationsFromDatabase();
+        public static List<OperationUnit> GetOperations() => _operations;
 
         public static OperationUnit GetOperationByID(int OperationId)
         {
@@ -52,7 +52,7 @@ namespace FinanceCo.Library
                 OperationToUpdate.Category = operation.Category;
                 OperationToUpdate.Description = operation.Description;
             }
-            FinanceDbContext.SeedData();
+            FinanceDbContext.EditOperationInDbById(operation, OperationId);
         }
 
         public static void DeleteOperation(int OperationId)

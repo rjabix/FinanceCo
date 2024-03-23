@@ -14,13 +14,18 @@
                 <VerticalStackLayout Grid.Row="0" Grid.Column="0">
                     <Label Text="За останні 4 тижні:"/>
                     <charts:ChartView x:Name="LastMonthByCategoriesGraph" HeightRequest="250" Margin="20,0,0,0"/>
-                    
+                    <!--<Label Text="Подивитися докладну інформацію по категоріям:"/>-->
+                    <Picker x:Name="CategoryPicker" Title="Подивитися докладну інформацію по категоріям:" Margin="20,0,0,0" SelectedIndexChanged="OnCategoryPickerIndexChanged"/>
+                    <charts:ChartView x:Name="LastFourWeeksByCategoriesGraph" HeightRequest="250" Margin="20,0,0,0"/>
+
                 </VerticalStackLayout>
 
                 <VerticalStackLayout Grid.Row="0" Grid.Column="1">
                     
-                    <Label x:Name="ShowSavedMoneyThroughLastFourWeekends" HorizontalOptions="Center" FontSize="Small"/>
+                    <Label x:Name="ShowSavedMoneyThroughLastFourWeekends" HorizontalOptions="Start" FontSize="Small" Margin="10,5,5,0"/>
                     
+                    <Label x:Name="TheBiggestOperationThroughLastFourWeekends" HorizontalOptions="Start" FontSize="Small" Margin="10,5,5,0"/>
+
                 </VerticalStackLayout>
             </Grid>        
          </VerticalStackLayout>
