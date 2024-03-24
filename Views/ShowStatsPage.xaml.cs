@@ -22,6 +22,8 @@ public partial class ShowStatsPage : ContentPage
 
         TheBiggestOperationThroughLastFourWeekends.Text = TheBiggestOperationFunction();
 
+        CategoryPicker.SelectedItem = OperationCategory.Food;
+
         //charts:
         LastMonthByCategoriesGraph.Chart = new DonutChart()
         {
@@ -30,13 +32,22 @@ public partial class ShowStatsPage : ContentPage
             LabelColor = SKColors.White
         };
 
-        LastFourWeeksByCategoriesGraph.Chart = new BarChart()
+        // --->>>This is the second displayed chart, but it is displayed via OnCategoryPickerIndexChanged event down below<<<---
+        //
+        //LastFourWeeksByCategoriesGraph.Chart = new PointChart()
+        //{
+        //    Entries = DiagramsHandler.LastFourWeeksByCategoriesGraph(OperationUnitRepository.GetOperationsOnTheLastFourWeeks(), OperationCategory.Food),
+        //    BackgroundColor = SKColors.Transparent,
+        //    LabelColor = SKColors.White
+        //};
+
+        TheBiggestCategoryLastFourWeeksGraph.Chart = new LineChart()
         {
-            Entries = DiagramsHandler.LastFourWeeksByCategoriesGraph(OperationUnitRepository.GetOperationsOnTheLastFourWeeks(), OperationCategory.Food),
+            Entries = DiagramsHandler.TheBiggestCategoryLastFourWeeksGraph(OperationUnitRepository.GetOperationsOnTheLastFourWeeks()),
             BackgroundColor = SKColors.Transparent,
             LabelColor = SKColors.White
         };
-        
+
     }
 
     private static string ShowSavedMoneyFunction()
@@ -70,14 +81,14 @@ public partial class ShowStatsPage : ContentPage
             Margin = new Thickness(20, 0, 0, 0)
         };
 
-        newChartView.Chart = new BarChart()
+        newChartView.Chart = new PointChart()
         {
             Entries = DiagramsHandler.LastFourWeeksByCategoriesGraph(OperationUnitRepository.GetOperationsOnTheLastFourWeeks(), (OperationCategory)CategoryPicker.SelectedItem),
             BackgroundColor = SKColors.Transparent,
             LabelColor = SKColors.White
         };
 // -------------->>>TMP: index = 3 !!!<<<----------------
-        //To find the index of the old chart view, uncomment the following code:
+        //To find the index of the old chart view, uncomment the following code, and look through debbuger to (int) index:
 
 
         //var oldChartView = LeftVerticalStackLayout.FindByName<ChartView>("LastFourWeeksByCategoriesGraph");
