@@ -83,7 +83,7 @@ namespace FinanceCo.Library
         public static List<OperationUnit> GetOperationsOnTheCurrentWeek()
         {
             DateTime currentDate = DateTime.Now;
-            DateTime startOfWeek = currentDate.AddDays(-(int)currentDate.DayOfWeek);
+            DateTime startOfWeek = currentDate.AddDays((-(int)currentDate.DayOfWeek + 1 - 7)%7);
             DateTime endOfWeek = startOfWeek.AddDays(7);
 
             return _operations.Where(operation => operation.Date >= startOfWeek && operation.Date < endOfWeek).ToList();

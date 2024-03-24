@@ -1,6 +1,7 @@
 ﻿using FinanceCo.Library;
 using FinanceCo.Views.Controls;
 using Microcharts;
+using Microcharts.Maui;
 using SkiaSharp;
 
 namespace FinanceCo.Views;
@@ -35,6 +36,7 @@ public partial class ShowStatsPage : ContentPage
             BackgroundColor = SKColors.Transparent,
             LabelColor = SKColors.White
         };
+        
     }
 
     private static string ShowSavedMoneyFunction()
@@ -60,11 +62,34 @@ public partial class ShowStatsPage : ContentPage
     private void OnCategoryPickerIndexChanged(object sender, EventArgs e)
     {
         CategoryPicker.SelectedItem ??= OperationCategory.Food;
-        LastFourWeeksByCategoriesGraph.Chart = new BarChart()
+
+        // Створити новий ChartView
+        var newChartView = new ChartView
+        {
+            HeightRequest = 250,
+            Margin = new Thickness(20, 0, 0, 0)
+        };
+
+        newChartView.Chart = new BarChart()
         {
             Entries = DiagramsHandler.LastFourWeeksByCategoriesGraph(OperationUnitRepository.GetOperationsOnTheLastFourWeeks(), (OperationCategory)CategoryPicker.SelectedItem),
             BackgroundColor = SKColors.Transparent,
             LabelColor = SKColors.White
         };
+// -------------->>>TMP: index = 3 !!!<<<----------------
+        //To find the index of the old chart view, uncomment the following code:
+
+
+        //var oldChartView = LeftVerticalStackLayout.FindByName<ChartView>("LastFourWeeksByCategoriesGraph");
+        //if(oldChartView == null)
+        //    oldChartView = LeftVerticalStackLayout.FindByName<ChartView>("newChartView");
+        
+        //if (oldChartView != null)
+        //{
+            //var index = LeftVerticalStackLayout.Children.IndexOf(oldChartView);
+            LeftVerticalStackLayout.Children[3] = newChartView;
+        //}
     }
+
+
 }

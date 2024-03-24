@@ -11,7 +11,7 @@
                 ColumnDefinitions="*,*"
                 Margin="10,0,0,10">
                 
-                <VerticalStackLayout Grid.Row="0" Grid.Column="0">
+                <VerticalStackLayout Grid.Row="0" Grid.Column="0" x:Name="LeftVerticalStackLayout">
                     <Label Text="За останні 4 тижні:"/>
                     <charts:ChartView x:Name="LastMonthByCategoriesGraph" HeightRequest="250" Margin="20,0,0,0"/>
                     <!--<Label Text="Подивитися докладну інформацію по категоріям:"/>-->
