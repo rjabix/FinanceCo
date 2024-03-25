@@ -32,7 +32,8 @@ public partial class MainOverseePage : ContentPage
         {
             Entries = DiagramsHandler.ThisMonthByGoalGraph(),
             BackgroundColor = SKColors.Transparent,
-            LabelColor = SKColors.White
+            LabelColor = SKColors.White,
+            LabelOrientation = Orientation.Horizontal
         };
         switch(DiagramsHandler.reached_goal)
         {
@@ -56,7 +57,7 @@ public partial class MainOverseePage : ContentPage
 
         double RealWeekAvg = Math.Round((OperationUnitRepository.GetWeekTotalValueOfOperations() / 7), 2);
         SetGoalButton.TextColor = (RealWeekAvg > OperationUnitRepository.CurrentGoal) ? Color.FromHex("#CC0000") : Color.FromHex("#66CC00");
-        SetGoalButton.Text = $"Денна ціль (за тиждень): {RealWeekAvg} / {OperationUnitRepository.CurrentGoal} ZŁ";
+        SetGoalButton.Text = $"Денна ціль (за тиждень): {RealWeekAvg} / {OperationUnitRepository.CurrentGoal} ZŁ ({Math.Round(RealWeekAvg/OperationUnitRepository.CurrentGoal*100, 2)}%)";
 
         RefreshListOperations();
     }

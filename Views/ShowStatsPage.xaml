@@ -8,7 +8,7 @@
         <VerticalStackLayout>
             <Grid
                 RowDefinitions="*"
-                ColumnDefinitions="700,*"
+                ColumnDefinitions="*,*"
                 Margin="10,0,0,10">
                 
                 <VerticalStackLayout Grid.Row="0" Grid.Column="0" x:Name="LeftVerticalStackLayout">
@@ -24,9 +24,9 @@
 
                 <VerticalStackLayout Grid.Row="0" Grid.Column="1">
                     
-                    <Label x:Name="ShowSavedMoneyThroughLastFourWeekends" HorizontalOptions="Start" FontSize="Micro" Margin="10,5,5,0"/>
+                    <Label x:Name="ShowSavedMoneyThroughLastFourWeekends" HorizontalOptions="Start" FontSize="Micro" Margin="10,20,5,20"/>
                     
-                    <Label x:Name="TheBiggestOperationThroughLastFourWeekends" HorizontalOptions="Start" FontSize="Micro" Margin="10,5,5,0"/>
+                    <Label x:Name="TheBiggestOperationThroughLastFourWeekends" HorizontalOptions="Start" FontSize="Micro" Margin="10,20,5,20"/>
 
                 </VerticalStackLayout>
             </Grid>        

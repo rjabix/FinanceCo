@@ -51,55 +51,26 @@ namespace FinanceCo.Views.Controls
 
         public static ChartEntry[] ThisWeekByCategoriesGraph(List<OperationUnit> operations)
         {
-            Dictionary<OperationCategory, double> keyValuePairs = new Dictionary<OperationCategory, double>();
+            var keyValuePairs = operations
+                .GroupBy(operation => operation.Category)
+                .ToDictionary(group => group.Key, group => group.Sum(operation => operation.Value));
 
-            foreach (var operation in operations)
+            var chartEntries = new List<ChartEntry>();
+
+            foreach (var category in Enum.GetValues(typeof(OperationCategory)).Cast<OperationCategory>())
             {
-                if (!keyValuePairs.ContainsKey(operation.Category))
-                {
-                    keyValuePairs[operation.Category] = 0;
-                }
+                var value = keyValuePairs.ContainsKey(category) ? keyValuePairs[category] : 0;
 
-                keyValuePairs[operation.Category] += operation.Value;
+                chartEntries.Add(new ChartEntry((float)value)
+                {
+                    Label = category.ToString(),
+                    ValueLabelColor = SKColors.White,
+                    ValueLabel = value.ToString(),
+                    Color = SKColor.Parse(CategoryToColor[category])
+                });
             }
 
-            return new[]
-            {
-                   new ChartEntry((float)(keyValuePairs.ContainsKey(OperationCategory.Food) ? keyValuePairs[OperationCategory.Food] : 0)){
-                       Label = "Food",
-                       ValueLabelColor = SKColors.White,
-                       ValueLabel = (keyValuePairs.ContainsKey(OperationCategory.Food) ? keyValuePairs[OperationCategory.Food] : 0).ToString(),
-                       Color = SKColor.Parse("#90D585") // Green
-                   },
-                   new ChartEntry((float)(keyValuePairs.ContainsKey(OperationCategory.Transport) ? keyValuePairs[OperationCategory.Transport] : 0))
-                   {
-                       Label = "Transport",
-                       ValueLabelColor = SKColors.White,
-                       ValueLabel = (keyValuePairs.ContainsKey(OperationCategory.Transport) ? keyValuePairs[OperationCategory.Transport] : 0).ToString(),
-                       Color = SKColor.Parse("#68B9C0") // Blue
-                   },
-                   new ChartEntry((float)(keyValuePairs.ContainsKey(OperationCategory.Alcohol) ? keyValuePairs[OperationCategory.Alcohol] : 0))
-                   {
-                        Label = "Alcohol",
-                       ValueLabelColor = SKColors.White,
-                        ValueLabel = (keyValuePairs.ContainsKey(OperationCategory.Alcohol) ? keyValuePairs[OperationCategory.Alcohol] : 0).ToString(),
-                        Color = SKColor.Parse("#e77e23") // Orange
-                   },
-                   new ChartEntry((float)(keyValuePairs.ContainsKey(OperationCategory.Entertainment) ? keyValuePairs[OperationCategory.Entertainment] : 0))
-                   {
-                        Label = "Entertainment",
-                       ValueLabelColor = SKColors.White,
-                        ValueLabel = (keyValuePairs.ContainsKey(OperationCategory.Entertainment) ? keyValuePairs[OperationCategory.Entertainment] : 0).ToString(),
-                        Color = SKColor.Parse("#FF0000") // Red
-                   },
-                   new ChartEntry((float)(keyValuePairs.ContainsKey(OperationCategory.Other) ? keyValuePairs[OperationCategory.Other] : 0))
-                   {
-                        Label = "Other",
-                       ValueLabelColor = SKColors.White,
-                        ValueLabel = (keyValuePairs.ContainsKey(OperationCategory.Other) ? keyValuePairs[OperationCategory.Other] : 0).ToString(),
-                        Color = SKColor.Parse("#808080") // Grey
-                   }
-            };
+            return chartEntries.ToArray();
         }
 
         public static ChartEntry[] ThisMonthByGoalGraph()
@@ -116,8 +87,8 @@ namespace FinanceCo.Views.Controls
                 { 4, 0 }
             };
             DateTime currentDate = DateTime.Now;
-            DateTime startOfWeek = currentDate.AddDays((-(int)currentDate.DayOfWeek + 1 - 7) % 7);
-            DateTime endOfWeek = startOfWeek.AddDays(7);
+            DateTime startOfWeek = currentDate.AddDays((-(int)currentDate.DayOfWeek + 1 - 7) % 7).Date;
+            DateTime endOfWeek = startOfWeek.AddDays(7).Date;
             Dictionary<int, string> keyValuePairs1 = new Dictionary<int, string>
             {
                 { 0, "" },
@@ -165,113 +136,65 @@ namespace FinanceCo.Views.Controls
 
         public static ChartEntry[] LastFourWeeksByCategoriesGraph(List<OperationUnit> operations, OperationCategory category)
         {
-            Dictionary<int, double> keyValuePairs = new Dictionary<int, double>
-            {
-                { 0, 0 },
-                { 1, 0 },
-                { 2, 0 },
-                { 3, 0 },
-                { 4, 0 }
-            };
             DateTime currentDate = DateTime.Now;
-            DateTime startOfWeek = currentDate.AddDays((-(int)currentDate.DayOfWeek + 1 - 7) % 7);
-            DateTime endOfWeek = startOfWeek.AddDays(7);
-            Dictionary<int, string> keyValuePairs1 = new Dictionary<int, string>
-            {
-                { 0, "" },
-                { 1, "" },
-                { 2, "" },
-                { 3, "" },
-                { 4, "" }
-            };
+            DateTime startOfCurrentWeek = currentDate.AddDays((-(int)currentDate.DayOfWeek + 1 - 7) % 7);
 
-            for (int i = 0; i < 5; i++)
-            {
-                keyValuePairs1[4 - i] = $"{startOfWeek.AddDays(-7 * i):dd/MM} - {endOfWeek.AddDays(-7 * i):dd/MM}";
-            }
-
-            for (int i = 0; i < 5; i++)
-            {
-                foreach (var operation in operations)
+            var chartEntries = Enumerable.Range(0, 5)
+                .Select(i =>
                 {
-                    if (operation.Date >= startOfWeek.AddDays(-7 * i) && operation.Date < endOfWeek.AddDays(-7 * i) && operation.Category == category)
+                    DateTime startOfWeek = startOfCurrentWeek.AddDays(-7 * i).Date;
+                    DateTime endOfWeek = startOfWeek.AddDays(7).Date;
+
+                    var totalValue = operations
+                        .Where(operation => operation.Date >= startOfWeek && operation.Date < endOfWeek && operation.Category == category)
+                        .Sum(operation => operation.Value);
+
+                    return new ChartEntry((float)totalValue)
                     {
-                        keyValuePairs[4 - i] += operation.Value;
-                    }
-                }
-            }
+                        Label = $"{startOfWeek:dd/MM} - {endOfWeek:dd/MM}",
+                        ValueLabel = totalValue.ToString(),
+                        ValueLabelColor = SKColors.White,
+                        Color = SKColor.Parse(CategoryToColor[category])
+                    };
+                })
+                .Reverse()
+                .ToArray();
 
-            List<ChartEntry> entries = new List<ChartEntry>();
-
-            foreach (var pair in keyValuePairs)
-            {
-                entries.Add(new ChartEntry((float)pair.Value)
-                {
-                    Label = keyValuePairs1[pair.Key],
-                    ValueLabel = pair.Value.ToString(),
-                    ValueLabelColor = SKColors.White,
-                    Color = SKColor.Parse(CategoryToColor[category])
-                });
-            }
-            return [.. entries];
+            return chartEntries;
         }
+
 
         public static ChartEntry[] TheBiggestCategoryLastFourWeeksGraph(List<OperationUnit> operations)
         {
-            Dictionary<OperationCategory, double> keyValuePairs2 = new Dictionary<OperationCategory, double>
-            {
-                {OperationCategory.Food, 0},
-                {OperationCategory.Transport, 0},
-                {OperationCategory.Alcohol, 0},
-                {OperationCategory.Entertainment, 0},
-                {OperationCategory.Other, 0}
-            };
+            var startOfCurrentWeek = DateTime.Now.AddDays((-(int)DateTime.Now.DayOfWeek + 1 - 7) % 7);
 
-            DateTime currentDate = DateTime.Now;
-            DateTime startOfWeek = currentDate.AddDays((-(int)currentDate.DayOfWeek + 1 - 7) % 7);
-            DateTime endOfWeek = startOfWeek.AddDays(7);
-            Dictionary<int, string> keyValuePairs1 = new Dictionary<int, string>
-            {
-                { 0, "" },
-                { 1, "" },
-                { 2, "" },
-                { 3, "" },
-                { 4, "" }
-            };
-            for (int i = 0; i < 5; i++)
-            {
-                keyValuePairs1[4 - i] = $"{startOfWeek.AddDays(-7 * i):dd/MM} - {endOfWeek.AddDays(-7 * i):dd/MM}";
-            }
-
-            List<ChartEntry> entries = new List<ChartEntry>();
-            for (int i = 0; i < 5; i++)
-            {
-                foreach (var operation in operations)
+            var chartEntries = Enumerable.Range(0, 5)
+                .Select(i =>
                 {
-                    if (operation.Date >= startOfWeek.AddDays(-7 * i) && operation.Date < endOfWeek.AddDays(-7 * i))
+                    var startOfWeek = startOfCurrentWeek.AddDays(-7 * i).Date;
+                    var endOfWeek = startOfWeek.AddDays(7).Date;
+
+                    var categoryTotalValues = operations
+                        .Where(operation => operation.Date >= startOfWeek && operation.Date < endOfWeek)
+                        .GroupBy(operation => operation.Category)
+                        .ToDictionary(group => group.Key, group => group.Sum(operation => operation.Value));
+
+                    var maxCategory = categoryTotalValues.OrderByDescending(pair => pair.Value).FirstOrDefault();
+
+                    return new ChartEntry((float)maxCategory.Value)
                     {
-                        keyValuePairs2[operation.Category] += operation.Value;
-                    }
-                }
-                entries.Add(new ChartEntry((float)keyValuePairs2.Values.Max())
-                {
-                    Label = keyValuePairs1[4 - i],
-                    ValueLabel = $"{keyValuePairs2.FirstOrDefault(x => x.Value == keyValuePairs2.Values.Max()).Key} {keyValuePairs2.Values.Max()}",
-                    ValueLabelColor = SKColors.White,
-                    Color = SKColor.Parse(CategoryToColor[keyValuePairs2.FirstOrDefault(x => x.Value == keyValuePairs2.Values.Max()).Key]),
-                });
-                keyValuePairs2 = new Dictionary<OperationCategory, double>
-                {
-                    {OperationCategory.Food, 0},
-                    {OperationCategory.Transport, 0},
-                    {OperationCategory.Alcohol, 0},
-                    {OperationCategory.Entertainment, 0},
-                    {OperationCategory.Other, 0}
-                };
-            }
-            entries.Reverse();
-            return [.. entries];
+                        Label = $"{startOfWeek:dd/MM} - {endOfWeek:dd/MM}",
+                        ValueLabel = $"{maxCategory.Key} {maxCategory.Value}",
+                        ValueLabelColor = SKColors.White,
+                        Color = SKColor.Parse(CategoryToColor[maxCategory.Key])
+                    };
+                })
+                .Reverse() // Reverse the order of entries to match the chronological order
+                .ToArray();
+
+            return chartEntries;
         }
+
 
     }
 }

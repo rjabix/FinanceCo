@@ -45,7 +45,8 @@ public partial class ShowStatsPage : ContentPage
         {
             Entries = DiagramsHandler.TheBiggestCategoryLastFourWeeksGraph(OperationUnitRepository.GetOperationsOnTheLastFourWeeks()),
             BackgroundColor = SKColors.Transparent,
-            LabelColor = SKColors.White
+            LabelColor = SKColors.White,
+            LabelOrientation = Orientation.Horizontal
         };
 
     }
@@ -85,7 +86,8 @@ public partial class ShowStatsPage : ContentPage
         {
             Entries = DiagramsHandler.LastFourWeeksByCategoriesGraph(OperationUnitRepository.GetOperationsOnTheLastFourWeeks(), (OperationCategory)CategoryPicker.SelectedItem),
             BackgroundColor = SKColors.Transparent,
-            LabelColor = SKColors.White
+            LabelColor = SKColors.White,
+            LabelOrientation = Orientation.Horizontal
         };
 // -------------->>>TMP: index = 3 !!!<<<----------------
         //To find the index of the old chart view, uncomment the following code, and look through debbuger to (int) index:
