@@ -3,9 +3,10 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:charts="clr-namespace:Microcharts.Maui;assembly=Microcharts.Maui"
              x:Class="FinanceCo.Views.ShowStatsPage"
-             Title="ShowStats">
+             >
     <ScrollView>
         <VerticalStackLayout>
+            <Button Text="&lt; Назад" Clicked="OnBackButtonClicked" Margin="10,10,0,0" HorizontalOptions="Start" FontSize="Medium" BackgroundColor="Transparent" TextColor="#927cdc"/>
             <Grid
                 RowDefinitions="*"
                 ColumnDefinitions="*,*"

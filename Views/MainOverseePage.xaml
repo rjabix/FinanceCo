@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:charts="clr-namespace:Microcharts.Maui;assembly=Microcharts.Maui"
              x:Class="FinanceCo.Views.MainOverseePage"
-             Title="MainOversee">
+             Title="Overview">
     <Grid RowDefinitions="*, 50"
           ColumnDefinitions="*, *">
         <ListView Grid.Row="0"
@@ -55,6 +55,7 @@
                 <Label Text="За останній місяць:" FontSize="Large" HorizontalOptions="Center"/>
                 <charts:ChartView x:Name="chartView_thisMonthByGoal" HeightRequest="300" Margin="20,0,0,0"/>
                 <Label x:Name="TimesGoalReachedLabel" FontSize="Medium" HorizontalOptions="Center" Margin="5,0,0,0"/>
+                <!--<ImageButton Aspect="AspectFit" Source="D:\System\VS repos\FinanceCo\Views\Images\EditButton_Image2.png" BackgroundColor="Transparent" HorizontalOptions="Start" VerticalOptions="Center" WidthRequest="64" Clicked="OnEditButton_Clicked"/>-->
             </VerticalStackLayout>
         </ScrollView>
         <Button Grid.Row="1"

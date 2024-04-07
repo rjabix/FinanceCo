@@ -29,7 +29,7 @@ namespace FinanceCo.Library
             Value = value;
             Date = date.Date; // Store only the date part without the time
             Category = category;
-            if (Description != null) { Description = description; } else { Description = "";}
+            if (description != null) { Description = description; } else { Description = "";}
                 
         }
         public OperationUnit(int id, double value, DateTime date, OperationCategory category)

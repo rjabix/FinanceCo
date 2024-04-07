@@ -123,5 +123,13 @@ public partial class MainOverseePage : ContentPage
     {
         Shell.Current.GoToAsync(nameof(ShowStatsPage));
     }
+
+    //private void OnEditButton_Clicked(object sender, EventArgs e)
+    //{
+    //    if (listOperations.SelectedItem != null)
+    //    {
+    //        Shell.Current.GoToAsync($"{nameof(EditInfoPage)}?Id={((OperationUnit)listOperations.SelectedItem).OperationId}");
+    //    }
+    //}
 }
 

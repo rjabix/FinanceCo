@@ -62,4 +62,8 @@ public partial class OperationControl : ContentView
 
         OnSave?.Invoke(sender, e);
     }
+    private void OnBackButtonClicked(object sender, EventArgs e)
+    {
+        Shell.Current.GoToAsync("//MainOverseePage");
+    }
 }

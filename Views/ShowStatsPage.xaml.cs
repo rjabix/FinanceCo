@@ -104,5 +104,8 @@ public partial class ShowStatsPage : ContentPage
         //}
     }
 
-
+    private void OnBackButtonClicked(object sender, EventArgs e)
+    {
+        Shell.Current.GoToAsync("//MainOverseePage");
+    }
 }

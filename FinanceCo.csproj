@@ -83,4 +83,8 @@
 	  </MauiXaml>
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Folder Include="Views\Images\" />
+	</ItemGroup>
+
 </Project>

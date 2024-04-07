@@ -5,6 +5,7 @@
              x:Class="FinanceCo.Views.Controls.OperationControl">
 
     <VerticalStackLayout Spacing="10" Margin="20, 20, 20, 0">
+        <Button Text="&lt; Назад" Clicked="OnBackButtonClicked" Margin="0,0,0,0" HorizontalOptions="Start" FontSize="Medium" BackgroundColor="Transparent" TextColor="#927cdc"/>
         <Label Text="Інформація:" FontSize="Large" HorizontalOptions="Center" />
         <!--<HorizontalStackLayout VerticalOptions="Center">
         <Label Text="{Binding Value}" WidthRequest="250" FontSize="Large" VerticalOptions="Center"/>
