@@ -42,7 +42,7 @@
         <ScrollView 
                 Grid.Row="0"
                 Grid.Column="1">
-            <VerticalStackLayout Margin="20,10,0,0">
+            <VerticalStackLayout x:Name="RightVerticalStackLayout" Margin="20,10,0,0">
                 <Button 
                 x:Name="SetGoalButton"
                 Clicked="SetGoalButton_Clicked"
@@ -51,7 +51,9 @@
                 FontSize="Medium"
                 TextColor="White"
                 HeightRequest="25"/>
+                
                 <charts:ChartView x:Name="chartView_thisWeekByCategories" HeightRequest="300" Margin="20,0,0,0"/>
+                
                 <Label Text="За останній місяць:" FontSize="Large" HorizontalOptions="Center"/>
                 <charts:ChartView x:Name="chartView_thisMonthByGoal" HeightRequest="300" Margin="20,0,0,0"/>
                 <Label x:Name="TimesGoalReachedLabel" FontSize="Medium" HorizontalOptions="Center" Margin="5,0,0,0"/>

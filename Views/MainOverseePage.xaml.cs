@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using Microcharts;
 using FinanceCo.Views.Controls;
 using SkiaSharp;
+using Microcharts.Maui;
 
 namespace FinanceCo.Views;
 
@@ -20,7 +21,7 @@ public partial class MainOverseePage : ContentPage
     protected override void OnAppearing()
     {
         base.OnAppearing();
-
+        
         chartView_thisWeekByCategories.Chart = new DonutChart()
         {
             Entries = DiagramsHandler.ThisWeekByCategoriesGraph(OperationUnitRepository.GetOperationsOnTheCurrentWeek()),
@@ -102,8 +103,27 @@ public partial class MainOverseePage : ContentPage
         bool shouldDelete = await DisplayAlert("Підтвердження", "Ви точно хочете це видалити?", "Так", "Ні");
 
         if (!shouldDelete) return;
-        OperationUnitRepository.DeleteOperation(operation.OperationId);
+
+        try { OperationUnitRepository.DeleteOperation(operation.OperationId); }
+        catch (Exception ex) { await DisplayAlert("Помилка", ex.Message, "OK"); return; }
         RefreshListOperations();
+        
+        //Trying to make this chart change dynamically after deletion, but seems like it's interfers with OnAppearing() method
+        //
+        //var newChartView = new ChartView
+        //{
+        //    HeightRequest = 300,
+        //    Margin = new Thickness(20, 0, 0, 0)
+        //};
+
+        //newChartView.Chart = new DonutChart()
+        //{
+        //    Entries = DiagramsHandler.ThisWeekByCategoriesGraph(OperationUnitRepository.GetOperationsOnTheCurrentWeek()),
+        //    BackgroundColor = SKColors.Transparent,
+        //    LabelColor = SKColors.White
+        //};
+        //RightVerticalStackLayout.Children[1] = newChartView;
+        //OnAppearing();
     }
 
     private async void SetGoalButton_Clicked(object sender, EventArgs e)

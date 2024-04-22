@@ -82,7 +82,7 @@ public partial class ShowStatsPage : ContentPage
             Margin = new Thickness(20, 0, 0, 0)
         };
 
-        newChartView.Chart = new PointChart()
+        newChartView.Chart = new BarChart() // Change to PointChart() if BarCHart() looks bad
         {
             Entries = DiagramsHandler.LastFourWeeksByCategoriesGraph(OperationUnitRepository.GetOperationsOnTheLastFourWeeks(), (OperationCategory)CategoryPicker.SelectedItem),
             BackgroundColor = SKColors.Transparent,

@@ -88,7 +88,7 @@ namespace FinanceCo.Views.Controls
             };
             DateTime currentDate = DateTime.Now;
             DateTime startOfWeek = currentDate.AddDays((-(int)currentDate.DayOfWeek + 1 - 7) % 7).Date;
-            DateTime endOfWeek = startOfWeek.AddDays(7).Date;
+            DateTime endOfWeek = startOfWeek.AddDays(6).Date;
             Dictionary<int, string> keyValuePairs1 = new Dictionary<int, string>
             {
                 { 0, "" },
@@ -101,7 +101,7 @@ namespace FinanceCo.Views.Controls
             {
                 foreach (var operation in operations)
                 {
-                    if (operation.Date >= startOfWeek.AddDays(-7 * i) && operation.Date < endOfWeek.AddDays(-7 * i))
+                    if (operation.Date >= startOfWeek.AddDays(-7 * i) && operation.Date <= endOfWeek.AddDays(-7 * i))
                     {
                         keyValuePairs[4 - i] += operation.Value;
                         if (keyValuePairs1[4 - i] == "")
@@ -143,10 +143,10 @@ namespace FinanceCo.Views.Controls
                 .Select(i =>
                 {
                     DateTime startOfWeek = startOfCurrentWeek.AddDays(-7 * i).Date;
-                    DateTime endOfWeek = startOfWeek.AddDays(7).Date;
+                    DateTime endOfWeek = startOfWeek.AddDays(6).Date;
 
                     var totalValue = operations
-                        .Where(operation => operation.Date >= startOfWeek && operation.Date < endOfWeek && operation.Category == category)
+                        .Where(operation => operation.Date >= startOfWeek && operation.Date <= endOfWeek && operation.Category == category)
                         .Sum(operation => operation.Value);
 
                     return new ChartEntry((float)totalValue)
@@ -172,10 +172,10 @@ namespace FinanceCo.Views.Controls
                 .Select(i =>
                 {
                     var startOfWeek = startOfCurrentWeek.AddDays(-7 * i).Date;
-                    var endOfWeek = startOfWeek.AddDays(7).Date;
+                    var endOfWeek = startOfWeek.AddDays(6).Date;
 
                     var categoryTotalValues = operations
-                        .Where(operation => operation.Date >= startOfWeek && operation.Date < endOfWeek)
+                        .Where(operation => operation.Date >= startOfWeek && operation.Date <= endOfWeek)
                         .GroupBy(operation => operation.Category)
                         .ToDictionary(group => group.Key, group => group.Sum(operation => operation.Value));
 

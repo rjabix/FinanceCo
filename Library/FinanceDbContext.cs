@@ -128,6 +128,8 @@ namespace FinanceCo.Library
                     context.Operations.Remove(operation);
                     context.SaveChanges();
                 }
+                else
+                    throw new Exception("Operation not found");
             }
         }
     }
